@@ -23,7 +23,7 @@ class GitUserViewModel : BaseObservable() {
         get() = user?.login
 
     @get:Bindable
-    val userID: String?
+    val userID: String
         get() = user?.id + " - "
 
     @get:Bindable

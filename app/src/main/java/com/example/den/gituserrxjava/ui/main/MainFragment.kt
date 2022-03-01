@@ -31,6 +31,14 @@ class MainFragment : Fragment() {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.apply {
+            dispose()
+            clear()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if(viewModel.users.isEmpty()) {
@@ -91,6 +99,7 @@ class MainFragment : Fragment() {
                 gitUserViewModel?.user = user
                 //помойму не совсем првильно загружать аватары тут, имхо это ломает логику MVVM, но как по другому пока не придумал :(
                 viewModel.gitRepo.getBitmapAvatar(user.avatar_url,imageView)
+                //TODO: наверное стоит собирать обьект для отображения в репозитории а сдесь только передавать на отображение, ну и см комент выше
                 val subscribe = viewModel.gitRepo.getUserDetail(user.login).subscribe(
                     {result ->
                         Log.i(TAG,"Detail - ${result.login}\t${result.name}\t${result.company}\t${result.location}")
@@ -116,6 +125,4 @@ class MainFragment : Fragment() {
         }
         override fun getItemCount() = users.size
     }
-
-
 }

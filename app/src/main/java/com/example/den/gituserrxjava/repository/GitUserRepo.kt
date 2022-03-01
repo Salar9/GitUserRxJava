@@ -28,7 +28,7 @@ class GitUserRepo {
             //.addConverterFactory(ScalarsConverterFactory.create())
             .baseUrl("https://api.github.com/")
             .build()
-        gitApi = retrofit.create(GitApi::class.java);
+        gitApi = retrofit.create(GitApi::class.java)
     }
     fun getUsers(): Observable<MutableList<GitUser>> {
         return gitApi.getUsers()
